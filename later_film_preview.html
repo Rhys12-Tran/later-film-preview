@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LATER — A Short Film by Rhys</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --card: #1a1a26;
+      --accent: #6c63ff;
+      --accent2: #ff6584;
+      --text: #e8e8f0;
+      --muted: #7a7a9a;
+      --border: #2a2a3a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 2rem;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 40%, #2a1a4a 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 70%, #1a2a4a 0%, transparent 60%),
+                  var(--bg);
+    }
+
+    .particles {
+      position: absolute; inset: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(110vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    h1 {
+      font-size: clamp(3.5rem, 12vw, 7rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 0.9;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .hero-sub {
+      margin-top: 1.2rem;
+      font-size: 1.05rem;
+      color: var(--muted);
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .hero-meta {
+      display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 1.8rem;
+      animation: fadeUp 0.8s 0.45s ease both;
+    }
+
+    .meta-chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .meta-chip strong { color: var(--text); }
+
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      animation: fadeUp 1s 1s ease both;
+      cursor: pointer;
+    }
+
+    .scroll-arrow {
+      width: 24px; height: 24px;
+      border-right: 2px solid var(--muted);
+      border-bottom: 2px solid var(--muted);
+      transform: rotate(45deg);
+      animation: bounce 1.4s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(6px); }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      margin-bottom: 1.2rem;
+    }
+
+    .divider {
+      width: 40px; height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-bottom: 1.8rem;
+    }
+
+    p { color: var(--muted); margin-bottom: 1rem; }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 1rem 1.5rem;
+      background: var(--card);
+      border-radius: 0 8px 8px 0;
+      color: var(--text);
+      font-style: italic;
+      font-size: 1.05rem;
+      margin: 1.5rem 0;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; margin-top: 2rem; }
+
+    .timeline::before {
+      content: '';
+      position: absolute; left: 20px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    }
+
+    .tl-item {
+      display: flex; gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .tl-item:hover { transform: translateX(6px); }
+
+    .tl-dot {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--accent);
+      position: relative; z-index: 1;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .tl-item:hover .tl-dot,
+    .tl-item.active .tl-dot {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .tl-body {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1.2rem;
+      flex: 1;
+      transition: border-color 0.2s;
+    }
+
+    .tl-item:hover .tl-body,
+    .tl-item.active .tl-body { border-color: var(--accent); }
+
+    .tl-time { font-size: 0.72rem; color: var(--accent2); margin-bottom: 0.2rem; }
+    .tl-text { font-size: 0.9rem; color: var(--text); }
+
+    .tl-detail {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0;
+    }
+
+    .tl-item.active .tl-detail {
+      max-height: 120px;
+      margin-top: 0.5rem;
+    }
+
+    /* ── CHARACTERS ── */
+    .char-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+
+    @media (max-width: 560px) { .char-grid { grid-template-columns: 1fr; } }
+
+    .char-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      transition: border-color 0.25s, transform 0.25s;
+      cursor: default;
+    }
+
+    .char-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .char-avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .char-card:nth-child(1) .char-avatar { background: #2a1a4a; }
+    .char-card:nth-child(2) .char-avatar { background: #1a2a4a; }
+
+    .char-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .char-role { font-size: 0.75rem; color: var(--accent); margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .char-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── TOOLS ── */
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+
+    .tool-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .tool-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .tool-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .tool-name { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .tool-desc { font-size: 0.78rem; color: var(--muted); }
+
+    /* ── TIMELINE PHASE ── */
+    .phase-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem; }
+
+    .phase-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem;
+    }
+
+    .phase-bar-wrap {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 0.8rem 0 0.5rem;
+      overflow: hidden;
+    }
+
+    .phase-bar {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(to right, var(--accent), var(--accent2));
+      width: 0;
+      transition: width 1.2s ease;
+    }
+
+    .phase-name { font-size: 0.85rem; font-weight: 600; }
+    .phase-tool { font-size: 0.72rem; color: var(--accent); margin-top: 0.2rem; }
+    .phase-days { font-size: 0.72rem; color: var(--muted); }
+
+    /* ── MESSAGE SECTION ── */
+    .message-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .message-quote {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    .message-quote span { color: var(--accent); }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+      padding: 5rem 2rem;
+      background: linear-gradient(to bottom, transparent, var(--surface));
+    }
+
+    .cta-section h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); margin-bottom: 1rem; }
+
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 2.2rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 0 0 var(--accent);
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 24px rgba(108, 99, 255, 0.5);
+    }
+
+    /* ── COUNTER ── */
+    .counter-row {
+      display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2.5rem;
+    }
+
+    .counter-item { text-align: center; }
+
+    .counter-num {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .counter-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    nav.scrolled { border-color: var(--border); }
+
+    .nav-logo { font-weight: 900; font-size: 1.1rem; letter-spacing: 0.05em; }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    @media (max-width: 560px) { .nav-links { display: none; } }
+
+    /* ── PROGRESS BAR ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: linear-gradient(to right, var(--accent), var(--accent2));
+      z-index: 200;
+      width: 0%;
+      transition: width 0.1s;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav id="nav">
+  <div class="nav-logo">LA<span>T</span>ER</div>
+  <ul class="nav-links">
+    <li><a href="#story">Story</a></li>
+    <li><a href="#timeline">Scenes</a></li>
+    <li><a href="#characters">Characters</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#production">Production</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="tag">Short Film Competition 2026</div>
+    <h1>LA<span>T</span>ER</h1>
+    <p class="hero-sub">A short film by <strong>Rhys</strong> — Drama / Coming-of-Age · 7 Minutes · 100% AI-Generated</p>
+    <div class="hero-meta">
+      <div class="meta-chip"><strong>Genre:</strong> Drama / Coming-of-Age</div>
+      <div class="meta-chip"><strong>Length:</strong> ~7 min</div>
+      <div class="meta-chip"><strong>Audience:</strong> Young people, families, schools</div>
+      <div class="meta-chip"><strong>Production:</strong> 100% AI</div>
+    </div>
+  </div>
+  <div class="scroll-hint" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">
+    SCROLL
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- STORY -->
+<section id="story">
+  <div class="section-label reveal">The Story</div>
+  <h2 class="reveal">What Is <em>Later</em> About?</h2>
+  <div class="divider reveal"></div>
+  <blockquote class="reveal">
+    "A Year 12 student watches his dream science scholarship go to a classmate after months of telling himself he'll apply tomorrow — until a second chance forces him to choose between his excuses and his future."
+  </blockquote>
+  <p class="reveal">The film follows <strong>Rhys</strong>, a 17-year-old student who is smart, aware of his own potential, but stuck in a pattern of delaying things he cares about. He has his eye on a prestigious science scholarship — but every time he sits down to apply, he tells himself: <em>"I'm not ready yet."</em> <em>"I'll do it later."</em> <em>"I'll start when I have more experience."</em></p>
+  <p class="reveal">Days pass. Games. Short videos. Distractions. While he waits to feel ready, his classmate Maya quietly gets to work — and wins the scholarship Rhys never applied for.</p>
+  <p class="reveal">When a second scholarship appears, Rhys faces the same choice again. This time, the film shows him doing something different: he puts the phone down, opens his laptop, and starts.</p>
+  <p class="reveal"><em>Later</em> is about a habit almost every young person has — delaying things they care about because they are waiting to feel "ready." The film shows the real cost of that habit: not just lost time, but lost opportunities. But it does not end on a dark note.</p>
+
+  <div class="message-box reveal">
+    <div class="message-quote">"The best time to start was yesterday.<br/><span>The second best time is right now.</span>"</div>
+    <p style="margin:0; font-size:0.85rem;">The core message of <em>Later</em></p>
+  </div>
+
+  <div class="counter-row reveal" id="counters">
+    <div class="counter-item">
+      <div class="counter-num" data-target="7">0</div>
+      <div class="counter-label">Minutes Long</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-num" data-target="10">0</div>
+      <div class="counter-label">Key Scenes</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-num" data-target="6">0</div>
+      <div class="counter-label">AI Tools Used</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-num" data-target="21">0</div>
+      <div class="counter-label">Days to Produce</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="section-label reveal">Scene Breakdown</div>
+  <h2 class="reveal">The 10 Key Moments</h2>
+  <div class="divider reveal"></div>
+  <p class="reveal">Click any scene to expand its detail.</p>
+
+  <div class="timeline reveal" id="timeline-list"></div>
+</section>
+
+<!-- CHARACTERS -->
+<section id="characters">
+  <div class="section-label reveal">Characters</div>
+  <h2 class="reveal">Who We Follow</h2>
+  <div class="divider reveal"></div>
+
+  <div class="char-grid reveal">
+    <div class="char-card">
+      <div class="char-avatar">🎓</div>
+      <div class="char-name">Rhys</div>
+      <div class="char-role">The Protagonist</div>
+      <div class="char-desc">Age: 17, Year 12. Rhys is the main character — a bright student who is fully aware of his own potential but trapped in a cycle of self-doubt and delay. He is not lazy. He is afraid of starting and failing, so he protects himself by never starting at all. His journey from paralysis to action is the heart of the film.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-avatar">📚</div>
+      <div class="char-name">Maya</div>
+      <div class="char-role">The Mirror</div>
+      <div class="char-desc">Age: 17, same Year 12 class. Maya is not a villain — she is simply someone who starts while Rhys waits. She represents what Rhys could be doing. Her success is not unfair — it is the direct result of the difference between acting and waiting. Seeing her win is the moment that changes Rhys.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-label reveal">How It's Made</div>
+  <h2 class="reveal">AI Tools & Technology</h2>
+  <div class="divider reveal"></div>
+  <p class="reveal">This film will be produced entirely using AI tools — no camera crew, no actors, no studio. Here is a simple breakdown of the tools involved:</p>
+
+  <div class="tools-grid reveal" id="tools-grid"></div>
+</section>
+
+<!-- PRODUCTION -->
+<section id="production">
+  <div class="section-label reveal">Production Timeline</div>
+  <h2 class="reveal">3 Weeks to Completion</h2>
+  <div class="divider reveal"></div>
+  <p class="reveal">The entire film will be completed in 21 days across 8 production phases.</p>
+
+  <div class="phase-grid reveal" id="phase-grid"></div>
+</section>
+
+<!-- WHY THIS MATTERS -->
+<section id="why">
+  <div class="section-label reveal">Why This Matters</div>
+  <h2 class="reveal">More Than a Competition Entry</h2>
+  <div class="divider reveal"></div>
+  <blockquote class="reveal">
+    "This film is not just a competition entry. It is a statement — that a young person can create something meaningful, from scratch, using the tools of today."
+  </blockquote>
+  <p class="reveal">Later is personal. The story is drawn from real experience — the feeling of knowing what you want but waiting for a "right time" that never comes. By turning that experience into a film, Rhys is doing the very thing the film is about: starting, instead of waiting.</p>
+  <p class="reveal">The competition is a real opportunity. The film format — AI-generated, minimum 7 minutes — is achievable with the plan in place. The story is competition-worthy: emotionally honest, visually clear, and genuinely relatable to any young person who has ever told themselves "later."</p>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2 class="reveal">Starting is the hardest part.</h2>
+  <p class="reveal" style="color:var(--muted); margin-bottom:1.8rem;">Don't wait for the "right time." The second best time is right now.</p>
+  <button class="btn btn-primary reveal" onclick="alert('Later — Short Film Competition 2026\nCreated by Rhys\n\nSubmission in progress. Stay tuned!')">
+    Follow the Journey
+  </button>
+</div>
+
+<footer>
+  <p>LATER — A Short Film by Rhys &nbsp;·&nbsp; Short Film Competition 2026 &nbsp;·&nbsp; 100% AI-Generated</p>
+</footer>
+
+<script>
+  // ── PARTICLES ──
+  const particleContainer = document.getElementById('particles');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 1;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${6 + Math.random()*10}s;
+      animation-delay:${Math.random()*8}s;
+      background: ${Math.random() > 0.5 ? '#6c63ff' : '#ff6584'};
+    `;
+    particleContainer.appendChild(p);
+  }
+
+  // ── SCROLL PROGRESS ──
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const max = document.body.scrollHeight - window.innerHeight;
+    document.getElementById('progress-bar').style.width = (scrolled / max * 100) + '%';
+    document.getElementById('nav').classList.toggle('scrolled', scrolled > 40);
+  });
+
+  // ── REVEAL ON SCROLL ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+        // Trigger counters
+        if (e.target.id === 'counters') animateCounters();
+        // Trigger phase bars
+        document.querySelectorAll('.phase-bar').forEach(b => {
+          b.style.width = b.dataset.width;
+        });
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── COUNTERS ──
+  function animateCounters() {
+    document.querySelectorAll('.counter-num').forEach(el => {
+      const target = +el.dataset.target;
+      let cur = 0;
+      const step = Math.ceil(target / 30);
+      const t = setInterval(() => {
+        cur = Math.min(cur + step, target);
+        el.textContent = cur;
+        if (cur >= target) clearInterval(t);
+      }, 40);
+    });
+  }
+
+  // ── TIMELINE DATA ──
+  const scenes = [
+    { num: 1, time: "0:00–0:45", text: "We meet Rhys — smart, phone always in hand. A scholarship poster on his wall he never looks at.", detail: "Opening scene establishes Rhys's world — his bedroom, his habits, and the dream sitting ignored on the wall." },
+    { num: 2, time: "0:45–1:30", text: "He opens the scholarship application, reads it, then closes the tab. \"Not ready yet.\"", detail: "First act of avoidance. The rationalisation that feels safe but costs everything." },
+    { num: 3, time: "1:30–2:30", text: "Days blur together — gaming, scrolling, the deadline drifting further away.", detail: "A montage of passing time. Days become weeks. The poster fades into the background." },
+    { num: 4, time: "2:30–3:15", text: "He notices his classmate Maya quietly working on the same application in the library.", detail: "The mirror moment. Rhys sees what action looks like — and it's not dramatic. It's just steady." },
+    { num: 5, time: "3:15–4:00", text: "Rhys opens the application again — stares at the blank page — picks up his phone.", detail: "Almost. The blank page is the hardest part. He retreats again." },
+    { num: 6, time: "4:00–4:45", text: "Deadline day. He stares at the screen for a long moment. Then quietly closes the laptop.", detail: "The silence of a missed chance. No drama — just the quiet click of a lid closing." },
+    { num: 7, time: "4:45–5:30", text: "Results posted. Maya wins the scholarship. Rhys sees his poster still on the wall — untouched.", detail: "The cost of waiting is made visible. Not punishment — just consequence." },
+    { num: 8, time: "5:30–6:00", text: "A second scholarship appears. The old voice starts: \"…later.\"", detail: "The cycle threatens to repeat. The audience holds its breath." },
+    { num: 9, time: "6:00–6:30", text: "He puts the phone face-down. Opens the laptop. Starts typing. Does not stop.", detail: "The turning point. Small action, massive meaning. No fanfare — just starting." },
+    { num: 10, time: "6:30–7:00", text: "The screen reads: APPLICATION SUBMITTED. For the first time — he looks forward.", detail: "Resolution. Not triumph yet — but the beginning of it. A face turned toward the future." },
+  ];
+
+  const tl = document.getElementById('timeline-list');
+  scenes.forEach(s => {
+    const item = document.createElement('div');
+    item.className = 'tl-item';
+    item.innerHTML = `
+      <div class="tl-dot">${s.num}</div>
+      <div class="tl-body">
+        <div class="tl-time">${s.time}</div>
+        <div class="tl-text">${s.text}</div>
+        <div class="tl-detail">${s.detail}</div>
+      </div>
+    `;
+    item.addEventListener('click', () => {
+      const wasActive = item.classList.contains('active');
+      document.querySelectorAll('.tl-item').forEach(i => i.classList.remove('active'));
+      if (!wasActive) item.classList.add('active');
+    });
+    tl.appendChild(item);
+  });
+
+  // ── TOOLS DATA ──
+  const tools = [
+    { icon: "🖼️", name: "ChatGPT Image", desc: "Generates all scene images and character visuals (storyboard)" },
+    { icon: "🎬", name: "Google AI Flow", desc: "Generates video scenes from written descriptions" },
+    { icon: "🎙️", name: "ElevenLabs", desc: "Creates realistic voiceover and narration" },
+    { icon: "🎵", name: "Suno / Udio", desc: "Composes original music and sound design for the film" },
+    { icon: "🤖", name: "Claude (Anthropic)", desc: "Writes the script, story structure, and production plan" },
+    { icon: "✂️", name: "CapCut / DaVinci", desc: "Assembles all scenes, sound, and narration into the final film" },
+  ];
+
+  const tg = document.getElementById('tools-grid');
+  tools.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'tool-card';
+    card.innerHTML = `<div class="tool-icon">${t.icon}</div><div class="tool-name">${t.name}</div><div class="tool-desc">${t.desc}</div>`;
+    tg.appendChild(card);
+  });
+
+  // ── PRODUCTION PHASES ──
+  const phases = [
+    { name: "Script & Story Planning", tool: "Claude", days: 2, pct: 10 },
+    { name: "Character & Scene Visual Tests", tool: "ChatGPT Image", days: 2, pct: 10 },
+    { name: "Storyboard Generation", tool: "ChatGPT Image", days: 3, pct: 14 },
+    { name: "Video Scene Generation", tool: "Google AI Flow", days: 5, pct: 24 },
+    { name: "Voiceover Recording", tool: "ElevenLabs", days: 2, pct: 10 },
+    { name: "Music & Sound Design", tool: "Suno / Udio", days: 2, pct: 10 },
+    { name: "Editing & Assembly", tool: "CapCut / DaVinci", days: 3, pct: 14 },
+    { name: "Final Review & Export", tool: "All tools", days: 2, pct: 10 },
+  ];
+
+  const pg = document.getElementById('phase-grid');
+  phases.forEach(ph => {
+    const card = document.createElement('div');
+    card.className = 'phase-card';
+    card.innerHTML = `
+      <div class="phase-name">${ph.name}</div>
+      <div class="phase-tool">${ph.tool}</div>
+      <div class="phase-bar-wrap"><div class="phase-bar" data-width="${ph.pct}%"></div></div>
+      <div class="phase-days">${ph.days} day${ph.days > 1 ? 's' : ''}</div>
+    `;
+    pg.appendChild(card);
+  });
+
+  // Trigger bars when section is visible
+  const phaseObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('.phase-bar').forEach(b => { b.style.width = b.dataset.width; });
+        phaseObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  phaseObserver.observe(document.getElementById('production'));
+
+  // ── SMOOTH NAV ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
